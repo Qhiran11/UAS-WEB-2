@@ -1,0 +1,91 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.626);
+    color: #8fe4fce9;
+    font-family: "Bruce Forever";
+}
+
+.dashboard-sections{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.img_logo{
+    width: 50px;
+    height: 50px;
+}
+
+.body {
+    background: rgba(24, 1, 1, 0.626)
+}
+.dashboard_title{
+    font-family: "Bruce Forever";
+font-size: 30px;
+color: rgb(10, 170, 250);
+margin: 0; /* Menghapus margin default */
+padding: 0; /* Menghapus padding default */
+width: 100%; /* Memastikan elemen memenuhi lebar layar */
+font-weight: bold;
+display: flex; /* Menggunakan flexbox untuk mempermudah pemposisian */
+justify-content: center; /* Mengatur teks berada di tengah secara horizontal */
+}
+
+.dashboard-sections {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.dashboard-card {
+    background-color: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+}
+
+.dashboard-card h3 {
+    font-size: 1.2rem;
+    font-family: 'Courier New', Courier, monospace;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.dashboard-card img {
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+    background-color: #f5f5f5;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-card:hover img {
+    transform: scale(1.05);
+}
