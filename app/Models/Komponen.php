@@ -10,7 +10,7 @@ class Komponen extends Model
     // Ini penting untuk menghindari asumsi Laravel yang otomatis menjamakkan nama tabel
     protected $table = 'komponen';
 
-    protected $fillable = ['nama_komponen', 'jenis_komponen_id', 'harga_komponen', 'stok_komponen'];
+    protected $fillable = ['nama_komponen', 'jenis_komponen_id', 'harga_komponen', 'stok_komponen', 'gambar'];
     
     public function jenisKomponen()
     {

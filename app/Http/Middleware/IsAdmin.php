@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // <-- TAMBAHKAN INI
 use Symfony\Component\HttpFoundation\Response;
 
 class IsAdmin
@@ -15,7 +16,8 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->role === 'admin') {
+        // UBAH BARIS INI
+        if (Auth::check() && Auth::user()->role === 'admin') {
             return $next($request);
         }
         // Jika bukan admin, arahkan ke dashboard biasa atau tampilkan error

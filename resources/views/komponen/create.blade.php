@@ -26,6 +26,12 @@
                 @error('nama_komponen') <div style="color: red;">{{ $message }}</div> @enderror
             </label>
 
+             <label>
+                <strong>Gambar Produk</strong>
+                <input type="file" name="gambar" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100">
+                @error('gambar') <div style="color: red;">{{ $message }}</div> @enderror
+            </label>
+
             {{-- Description --}}
             <label>
                 <strong>Description</strong>

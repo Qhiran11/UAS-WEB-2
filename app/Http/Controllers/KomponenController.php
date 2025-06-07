@@ -40,7 +40,14 @@ class KomponenController extends Controller
             'jenis_komponen_id' => 'required|exists:jenis_komponen,id',
             'harga_komponen' => 'required|numeric',
             'stok_komponen' => 'required|integer',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Tambahkan validasi gambar
         ]);
+
+        if ($request->hasFile('gambar')) {
+            // Simpan gambar dan dapatkan path-nya
+            $path = $request->file('gambar')->store('public/komponen');
+            $validated['gambar'] = basename($path);
+        }
 
         Komponen::create($validated);
 
@@ -56,16 +63,26 @@ class KomponenController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Komponen $komponen) // Gunakan Route Model Binding
     {
         $validated = $request->validate([
             'nama_komponen' => 'required|string|max:255',
             'jenis_komponen_id' => 'required|exists:jenis_komponen,id',
             'harga_komponen' => 'required|numeric',
             'stok_komponen' => 'required|integer',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Tambahkan validasi gambar
         ]);
 
-        $komponen = Komponen::findOrFail($id);
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            if ($komponen->gambar && file_exists(storage_path('app/public/komponen/' . $komponen->gambar))) {
+                \Illuminate\Support\Facades\Storage::delete('public/komponen/'.$komponen->gambar);
+            }
+
+            $path = $request->file('gambar')->store('public/komponen');
+            $validated['gambar'] = basename($path);
+        }
+
         $komponen->update($validated);
 
         return redirect()->route('komponen.index')->with('success', 'Komponen berhasil diperbarui');

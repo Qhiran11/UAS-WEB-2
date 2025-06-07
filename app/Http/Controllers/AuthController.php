@@ -21,11 +21,11 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
+        // Ganti aturan validasi password
         $validated = $request->validate([
-            'name' => 'required',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'confirm_password' => 'required|same:password',
+            'password' => 'required|string|min:8|confirmed', // 'confirmed' akan mencocokkan dengan 'password_confirmation'
         ]);
 
         User::create([

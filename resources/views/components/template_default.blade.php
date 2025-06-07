@@ -55,7 +55,6 @@
                             Jenis
                         </a>
                     </li>
-                    {{-- Di dalam <ul class="hidden sm:flex"> --}}
                     @if (auth()->check() && auth()->user()->role === 'admin')
                     <li class="list">
                         <a href="{{ route('admin.users.index') }}"
