@@ -20,10 +20,11 @@ class KomponenController extends Controller
         return view('komponen.index', compact('Komponens'));
     }
 
-    public function show(string $id)
+    public function show(Komponen $komponen)
     {
-        $Komponens = Komponen::findOrFail($id);
-        return view('komponen.show', compact('Komponens'));
+        return view('komponen.show', [
+            'komponen' => $komponen
+        ]);
     }
 
     public function create()
