@@ -52,7 +52,7 @@
 
                 <p class="text-zinc-600 text-sm text-center mt-4">
                     Already have an account?
-                    <a href="{{ route('auth.login') }}" class="text-blue-600 hover:text-blue-800 font-semibold underline">Login Here!</a>
+                    <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-800 font-semibold underline">Login Here!</a>
                 </p>
             </form>
         </div>

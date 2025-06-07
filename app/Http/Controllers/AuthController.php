@@ -34,7 +34,8 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return redirect()->route('auth.login')->with('success', 'Register Success');
+        // app/Http/Controllers/AuthController.php -> method store()
+        return redirect()->route('login')->with('success', 'Register Success');     
     }
 
     public function authenticate(Request $request)
@@ -61,6 +62,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('auth.login');
+        return redirect()->route('login');
     }
 }
