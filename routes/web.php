@@ -14,7 +14,7 @@ Route::get('/', function () {
 
 // Rute untuk Tamu (Guest) - Hanya bisa diakses jika belum login
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.authenticate');
     Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
