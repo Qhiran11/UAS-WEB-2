@@ -55,6 +55,16 @@
                             Jenis
                         </a>
                     </li>
+                    {{-- Di dalam <ul class="hidden sm:flex"> --}}
+                    @if (auth()->check() && auth()->user()->role === 'admin')
+                    <li class="list">
+                        <a href="{{ route('admin.users.index') }}"
+                        class="{{ request()->is('admin/users') ? 'text-white' : 'text-white' }}
+                        }} block px-2 py-1 rounded font-semibold hover:scale-105 hover:shadow-lg hover:shadow-white text-sm">
+                            Kelola User
+                        </a>
+                    </li>
+                    @endif
                     
                 </ul>
 

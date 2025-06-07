@@ -1,30 +1,46 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\StudentController;
 use App\Http\Controllers\KomponenController;
-
 use App\Http\Controllers\JenisKomponenController;
+use App\Http\Controllers\ProfileController;
 
-Route::get('/jenis_komponen', [JenisKomponenController::class, 'index'])->name('jenis_komponen.index');
-
-
-// Route utama
+// Rute untuk halaman utama, langsung arahkan ke login
 Route::get('/', function () {
-    return view('dashboard'); // cukup 'dashboard', tanpa slash di depan
+    return redirect()->route('auth.login');
 });
 
-// Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Rute untuk Tamu (Guest) - Hanya bisa diakses jika belum login
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.authenticate');
+    Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
+});
 
-// Routes untuk Student
+// Rute yang Memerlukan Login (Authenticated)
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    // Tambahkan rute untuk update profile nanti di sini
 
-// Routes untuk Komponen
-Route::get('/komponen', [KomponenController::class, 'index'])->name('komponen.index');
-Route::get('/komponen/create', [KomponenController::class, 'create'])->name('komponen.create');
-Route::post('/komponen', [KomponenController::class, 'store'])->name('komponen.store');
-Route::get('/komponen/{id}', [KomponenController::class, 'show'])->name('komponen.show');
-Route::get('/komponen/{id}/edit', [KomponenController::class, 'edit'])->name('komponen.edit');
-Route::put('/komponen/{id}', [KomponenController::class, 'update'])->name('komponen.update');
-Route::delete('/komponen/{id}', [KomponenController::class, 'destroy'])->name('komponen.destroy');
+    // Resourceful Routes untuk Komponen
+    Route::resource('komponen', KomponenController::class);
+
+    // Routes untuk Jenis Komponen
+    Route::get('/jenis_komponen', [JenisKomponenController::class, 'index'])->name('jenis_komponen.index');
+    
+    // Tambahkan rute untuk Admin nanti di sini
+});
+
+
+// Rute Khusus Admin
+Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+    Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+});
