@@ -3,37 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Komponen;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\JenisKomponen;
-
-
-
-
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class KomponenController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $Komponens = Komponen::all();
+        $Komponens = Komponen::with('jenisKomponen')->latest()->get();
         return view('komponen.index', compact('Komponens'));
     }
 
-    public function show(Komponen $komponen)
-    {
-        return view('komponen.show', [
-            'komponen' => $komponen
-        ]);
-    }
-
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         $jenis_komponen = JenisKomponen::all();
-
         return view('komponen.create', compact('jenis_komponen'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -41,11 +37,10 @@ class KomponenController extends Controller
             'jenis_komponen_id' => 'required|exists:jenis_komponen,id',
             'harga_komponen' => 'required|numeric',
             'stok_komponen' => 'required|integer',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Tambahkan validasi gambar
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->hasFile('gambar')) {
-            // Simpan gambar dan dapatkan path-nya
             $path = $request->file('gambar')->store('public/komponen');
             $validated['gambar'] = basename($path);
         }
@@ -55,15 +50,26 @@ class KomponenController extends Controller
         return redirect()->route('komponen.index')->with('success', 'Komponen berhasil ditambahkan');
     }
 
-
-    public function edit($id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Komponen $komponen)
     {
-        $komponen = Komponen::findOrFail($id);
-        $jenis_komponen = DB::table('jenis_komponen')->get(); // Ambil jenis komponen
-        return view('admin.komponen.edit', compact('komponen', 'jenis_komponen'));
+        return view('komponen.show', compact('komponen'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Komponen $komponen)
+    {
+        $jenis_komponen = JenisKomponen::all();
+        return view('komponen.edit', compact('komponen', 'jenis_komponen'));
+    }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Komponen $komponen)
     {
         $validated = $request->validate([
@@ -71,32 +77,33 @@ class KomponenController extends Controller
             'jenis_komponen_id' => 'required|exists:jenis_komponen,id',
             'harga_komponen' => 'required|numeric',
             'stok_komponen' => 'required|integer',
-            // UBAH ATURAN VALIDASI GAMBAR DI SINI
-            'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
-            if ($komponen->gambar && file_exists(storage_path('app/public/komponen/' . $komponen->gambar))) {
-                \Illuminate\Support\Facades\Storage::delete('public/komponen/'.$komponen->gambar);
+            if ($komponen->gambar && Storage::exists('public/komponen/' . $komponen->gambar)) {
+                Storage::delete('public/komponen/' . $komponen->gambar);
             }
-
             $path = $request->file('gambar')->store('public/komponen');
             $validated['gambar'] = basename($path);
         }
 
         $komponen->update($validated);
 
-        return redirect()->route('admin.komponen.index')->with('success', 'Komponen berhasil diperbarui');
+        return redirect()->route('komponen.index')->with('success', 'Komponen berhasil diperbarui');
     }
 
-
-    public function destroy(string $id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Komponen $komponen)
     {
-        $Komponens = Komponen::findOrFail($id);
-        $Komponens->delete();
+        if ($komponen->gambar && Storage::exists('public/komponen/' . $komponen->gambar)) {
+            Storage::delete('public/komponen/' . $komponen->gambar);
+        }
+        
+        $komponen->delete();
 
-        return redirect()->route('komponen.index')->with('success', 'komponen berhasil dihapus');
+        return redirect()->route('komponen.index')->with('success', 'Komponen berhasil dihapus');
     }
-
 }

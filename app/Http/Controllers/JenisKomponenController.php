@@ -10,11 +10,13 @@ class JenisKomponenController extends Controller
     public function index()
     {
         $jenisKomponens = JenisKomponen::latest()->get();
+        // Memuat view dari 'resources/views/jenis_komponen/index.blade.php'
         return view('jenis_komponen.index', compact('jenisKomponens'));
     }
 
     public function create()
     {
+        // Memuat view dari 'resources/views/jenis_komponen/create.blade.php'
         return view('jenis_komponen.create');
     }
 
@@ -31,7 +33,9 @@ class JenisKomponenController extends Controller
 
     public function edit(JenisKomponen $jenis_komponen)
     {
-        return view('admin.komponen.edit', compact('jenis_komponen'));
+        // INI BAGIAN YANG DIPERBAIKI: pastikan memanggil view yang benar
+        // Memuat view dari 'resources/views/jenis_komponen/edit.blade.php'
+        return view('jenis_komponen.edit', compact('jenis_komponen'));
     }
 
     public function update(Request $request, JenisKomponen $jenis_komponen)
@@ -47,7 +51,6 @@ class JenisKomponenController extends Controller
 
     public function destroy(JenisKomponen $jenis_komponen)
     {
-        // Tambahkan pengecekan jika jenis komponen masih digunakan oleh produk
         if ($jenis_komponen->komponen()->count() > 0) {
             return redirect()->route('admin.jenis_komponen.index')->with('error', 'Jenis komponen tidak dapat dihapus karena masih digunakan oleh produk lain.');
         }

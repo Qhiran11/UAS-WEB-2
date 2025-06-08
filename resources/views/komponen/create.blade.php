@@ -13,10 +13,10 @@
             </div>
         @endif
 
-        <form action="{{ route('komponen.store') }}" method="POST"
+        <form action="{{ route('admin.komponen.store') }}" method="POST"
+            enctype="multipart/form-data"
             style="display: flex; flex-direction: column; gap: 20px; padding: 30px; border: 1px solid #ccc; background: #fff; width: 100%; max-width: 600px;">
             @csrf
-            @method("POST")
 
             {{-- Name --}}
             <label>
@@ -25,18 +25,12 @@
                     style="width: 100%; padding: 10px; border: 1px solid #ccc;">
                 @error('nama_komponen') <div style="color: red;">{{ $message }}</div> @enderror
             </label>
-
-             <label>
+            
+            {{-- Gambar --}}
+            <label>
                 <strong>Gambar Produk</strong>
                 <input type="file" name="gambar" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100">
                 @error('gambar') <div style="color: red;">{{ $message }}</div> @enderror
-            </label>
-
-            {{-- Description --}}
-            <label>
-                <strong>Description</strong>
-                <textarea name="description" style="width: 100%; padding: 10px; border: 1px solid #ccc;">{{ old('description') }}</textarea>
-                @error('description') <div style="color: red;">{{ $message }}</div> @enderror
             </label>
 
             {{-- Stock --}}
@@ -67,22 +61,8 @@
                             </option>
                         @endif
                     @endforeach
-
                 </select>
                 @error('jenis_komponen_id') <div style="color: red;">{{ $message }}</div> @enderror
-            </label>
-
-
-
-            {{-- Status --}}
-            <label>
-                <strong>Status</strong>
-                <select name="status" style="width: 100%; padding: 10px; border: 1px solid #ccc;">
-                    <option value="" disabled selected>Select Status</option>
-                    <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active</option>
-                    <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
-                </select>
-                @error('status') <div style="color: red;">{{ $message }}</div> @enderror
             </label>
 
             {{-- Actions --}}
