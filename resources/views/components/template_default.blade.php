@@ -43,19 +43,20 @@
                             Product
                         </a>
                     </li>
+                    {{-- Admin-only links --}}
+                    @if (auth()->check() && auth()->user()->role === 'admin')
                     <li class="list">
-                        <a href="{{ route('jenis_komponen.index') }}"
-                           class="{{ request()->is('jenis_komponen') ? 'text-white font-bold' : 'text-white' }}
+                        <a href="{{ route('admin.jenis_komponen.index') }}"
+                           class="{{ request()->is('admin/jenis_komponen*') ? 'text-white font-bold' : 'text-white' }}
                            block px-2 py-1 rounded font-semibold 
                             hover:scale-105 hover:shadow-lg hover:shadow-white 
                            text-sm">
                             Jenis
                         </a>
                     </li>
-                     @if (auth()->check() && auth()->user()->role === 'admin')
                     <li class="list">
                         <a href="{{ route('admin.users.index') }}"
-                           class="{{ request()->is('admin/users') ? 'text-white font-bold' : 'text-white' }}
+                           class="{{ request()->is('admin/users*') ? 'text-white font-bold' : 'text-white' }}
                            block px-2 py-1 rounded font-semibold 
                             hover:scale-105 hover:shadow-lg hover:shadow-white 
                            text-sm">
@@ -108,12 +109,13 @@
                                 Product
                             </a>
                         </li>
+                        {{-- Admin-only links for mobile --}}
+                        @if (auth()->check() && auth()->user()->role === 'admin')
                         <li>
-                            <a href="{{ route('jenis_komponen.index') }}" class="block px-4 py-2 text-zinc-600 text-sm hover:bg-gray-100 rounded-md">
+                            <a href="{{ route('admin.jenis_komponen.index') }}" class="block px-4 py-2 text-zinc-600 text-sm hover:bg-gray-100 rounded-md">
                                 Jenis
                             </a>
                         </li>
-                        @if (auth()->check() && auth()->user()->role === 'admin')
                         <li>
                             <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-zinc-600 text-sm hover:bg-gray-100 rounded-md">
                                 Kelola User

@@ -13,7 +13,7 @@
             </div>
         @endif
 
-        <form action="{{ route('komponen.update', $komponen->id) }}" method="POST">
+        <form action="{{ route('admin.komponen.update', $komponen->id) }}" method="POST">
             @csrf
             @method('PUT')
 
