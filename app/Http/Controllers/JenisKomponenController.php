@@ -51,12 +51,9 @@ class JenisKomponenController extends Controller
 
     public function destroy(JenisKomponen $jenis_komponen)
     {
-        if ($jenis_komponen->komponen()->count() > 0) {
-            return redirect()->route('admin.jenis_komponen.index')->with('error', 'Jenis komponen tidak dapat dihapus karena masih digunakan oleh produk lain.');
-        }
-
+        // Hapus pengecekan yang lama, langsung jalankan delete
         $jenis_komponen->delete();
 
-        return redirect()->route('admin.jenis_komponen.index')->with('success', 'Jenis komponen berhasil dihapus.');
+        return redirect()->route('admin.jenis_komponen.index')->with('success', 'Jenis komponen dan semua produk terkait berhasil dihapus.');
     }
 }

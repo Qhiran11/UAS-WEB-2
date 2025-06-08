@@ -16,4 +16,17 @@ class JenisKomponen extends Model
         return $this->hasMany(Komponen::class, 'jenis_komponen_id');
     }
 
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (JenisKomponen $jenisKomponen) {
+            // Hapus semua komponen yang terkait saat jenis komponen ini dihapus
+            $jenisKomponen->komponen()->each(function ($komponen) {
+                $komponen->delete(); // Ini akan memicu event 'deleting' pada model Komponen
+            });
+        });
+    }
+
 }
