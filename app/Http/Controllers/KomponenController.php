@@ -94,7 +94,7 @@ class KomponenController extends Controller
 
             // Simpan gambar baru
             $path = $request->file('gambar')->store('public/komponen');
-
+//////new
             // Tambahkan nama file baru ke data yang akan di-update
             $validatedData['gambar'] = basename($path);
         }
