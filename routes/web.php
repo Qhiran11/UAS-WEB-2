@@ -9,7 +9,7 @@ use App\Http\Controllers\ProfileController;
 
 // Rute untuk halaman utama, langsung arahkan ke login
 Route::get('/', function () {
-    return redirect()->route('auth.login');
+    return redirect()->route('login');
 });
 
 // Rute untuk Tamu (Guest) - Hanya bisa diakses jika belum login
@@ -29,7 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
-    // Tambahkan rute untuk update profile nanti di sini
 
     // Resourceful Routes untuk Komponen
     Route::resource('komponen', KomponenController::class);
@@ -37,12 +36,9 @@ Route::middleware('auth')->group(function () {
     // Routes untuk Jenis Komponen
     Route::get('/jenis_komponen', [JenisKomponenController::class, 'index'])->name('jenis_komponen.index');
     
-    // Tambahkan rute untuk Admin nanti di sini
-});
-
-
-// Rute Khusus Admin
-Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
-    Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+    // Rute Khusus Admin
+    Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+        Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+    });
 });
