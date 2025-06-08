@@ -77,19 +77,28 @@ class KomponenController extends Controller
             'jenis_komponen_id' => 'required|exists:jenis_komponen,id',
             'harga_komponen' => 'required|numeric',
             'stok_komponen' => 'required|integer',
-            'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // Gunakan 'sometimes' agar tidak wajib upload ulang gambar setiap kali edit
+            'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
+        // LOGIKA UNTUK PROSES GAMBAR BARU
         if ($request->hasFile('gambar')) {
-            if ($komponen->gambar && Storage::exists('public/komponen/' . $komponen->gambar)) {
-                Storage::delete('public/komponen/' . $komponen->gambar);
+            // 1. Hapus gambar lama jika ada
+            if ($komponen->gambar && \Illuminate\Support\Facades\Storage::exists('public/komponen/' . $komponen->gambar)) {
+                \Illuminate\Support\Facades\Storage::delete('public/komponen/' . $komponen->gambar);
             }
+
+            // 2. Simpan gambar baru dan dapatkan path-nya
             $path = $request->file('gambar')->store('public/komponen');
+
+            // 3. Masukkan nama file baru ke data yang akan di-update
             $validated['gambar'] = basename($path);
         }
 
+        // Update data komponen di database
         $komponen->update($validated);
 
+        // Arahkan kembali ke halaman index dengan pesan sukses
         return redirect()->route('komponen.index')->with('success', 'Komponen berhasil diperbarui');
     }
 
