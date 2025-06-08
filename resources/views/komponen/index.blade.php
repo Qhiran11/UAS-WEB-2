@@ -22,7 +22,7 @@
         <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col group">
             <div class="relative">
                 <img class="w-full h-48 object-cover" 
-                     src="{{ $komponen->gambar ? asset('storage/komponen/' . $komponen->gambar) : 'https://via.placeholder.com/300' }}" 
+                     src="{{ $komponen->gambar ? asset('uploads/komponen/' . $komponen->gambar) : 'https://via.placeholder.com/300' }}" 
                      alt="{{ $komponen->nama_komponen }}">
                 {{-- Tombol Edit & Hapus untuk Admin --}}
                 @if(Auth::user()->role === 'admin')

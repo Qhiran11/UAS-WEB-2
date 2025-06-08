@@ -27,7 +27,7 @@
 
             @if($komponen->gambar)
                 <div class="mb-4">
-                    <img src="{{ asset('storage/komponen/' . $komponen->gambar) }}" alt="{{ $komponen->nama_komponen }}" width="150">
+                    <img src="{{ asset('uploads/komponen/' . $komponen->gambar) }}" alt="{{ $komponen->nama_komponen }}" width="150">
                 </div>
             @endif
 

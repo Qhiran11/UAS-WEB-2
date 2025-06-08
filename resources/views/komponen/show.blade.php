@@ -6,7 +6,7 @@
             {{-- Kolom Gambar --}}
             <div>
                 <img class="w-full h-auto rounded-lg shadow-md object-cover" 
-                     src="{{ $komponen->gambar ? asset('storage/komponen/' . $komponen->gambar) : 'https://via.placeholder.com/600' }}" 
+                     src="{{ $komponen->gambar ? asset('uploads/komponen/' . $komponen->gambar) : 'https://via.placeholder.com/600' }}" 
                      alt="{{ $komponen->nama_komponen }}">
             </div>
 
