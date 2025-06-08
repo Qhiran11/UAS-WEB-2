@@ -20,7 +20,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
 });
 
-// Rute yang Memerlukan Login (Authenticated)
+// Rute yang memerlukan Login (untuk semua user & admin)
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -30,19 +30,21 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
-    // Resourceful Routes untuk Komponen
-    Route::resource('komponen', KomponenController::class);
+    // Rute Komponen yang bisa diakses publik (setelah login)
+    Route::get('/komponen', [KomponenController::class, 'index'])->name('komponen.index');
+    Route::get('/komponen/{komponen}', [KomponenController::class, 'show'])->name('komponen.show');
+});
 
-    // Routes untuk Jenis Komponen
-    Route::get('/jenis_komponen', [JenisKomponenController::class, 'index'])->name('jenis_komponen.index');
+// --- RUTE KHUSUS ADMIN ---
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     
-    // Rute Khusus Admin
-    Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
-        Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+    // Rute Manajemen User
+    Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+    Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+    
+    // Rute Manajemen Jenis Komponen
+    Route::resource('jenis_komponen', JenisKomponenController::class);
 
-        // Tambahkan rute resource untuk jenis komponen di sini
-        Route::resource('jenis_komponen', JenisKomponenController::class);
-
-    });
+    // Rute Manajemen Komponen (Create, Store, Edit, Update, Destroy)
+    Route::resource('komponen', KomponenController::class)->except(['index', 'show']);
 });
