@@ -54,10 +54,13 @@
                     <a href="{{ route('komponen.show', $komponen->id) }}" class="flex-1 text-center bg-zinc-200 text-zinc-800 font-semibold py-2 rounded-md hover:bg-zinc-300 transition">
                         Detail
                     </a>
+                    {{-- Tombol Keranjang HANYA untuk USER --}}
+                    @if(Auth::user()->role === 'user')
                     <button class="flex-1 bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center gap-1">
                         <i class="ph ph-shopping-cart"></i>
                         <span>Keranjang</span>
                     </button>
+                    @endif
                 </div>
             </div>
         </div>

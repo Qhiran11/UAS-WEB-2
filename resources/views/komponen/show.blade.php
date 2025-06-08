@@ -36,15 +36,26 @@
                 </div>
 
                 {{-- Tombol Aksi --}}
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <button class="w-full bg-blue-100 text-blue-800 font-bold py-3 rounded-md hover:bg-blue-200 transition flex items-center justify-center gap-2">
-                        <i class="ph ph-shopping-cart-simple text-xl"></i>
-                        <span>Tambah ke Keranjang</span>
-                    </button>
-                    <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-md hover:bg-blue-700 transition">
-                        Beli Sekarang
-                    </button>
-                </div>
+                @if(Auth::user()->role === 'user')
+                    {{-- Tampilkan tombol belanja HANYA untuk USER --}}
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button class="w-full bg-blue-100 text-blue-800 font-bold py-3 rounded-md hover:bg-blue-200 transition flex items-center justify-center gap-2">
+                            <i class="ph ph-shopping-cart-simple text-xl"></i>
+                            <span>Tambah ke Keranjang</span>
+                        </button>
+                        <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-md hover:bg-blue-700 transition">
+                            Beli Sekarang
+                        </button>
+                    </div>
+                @else
+                    {{-- Tampilkan tombol manajemen HANYA untuk ADMIN --}}
+                    <div class="flex gap-3">
+                        <a href="{{ route('admin.komponen.edit', $komponen->id) }}" class="w-full text-center bg-yellow-500 text-white font-bold py-3 rounded-md hover:bg-yellow-600 transition flex items-center justify-center gap-2">
+                            <i class="ph-fill ph-note-pencil text-xl"></i>
+                            <span>Edit Produk</span>
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
 

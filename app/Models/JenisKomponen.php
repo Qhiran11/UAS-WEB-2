@@ -11,4 +11,9 @@ class JenisKomponen extends Model
 
     protected $fillable = ['nama_jenis', 'created_at', 'updated_at'];
 
+    public function komponen()
+    {
+        return $this->hasMany(Komponen::class, 'jenis_komponen_id');
+    }
+
 }

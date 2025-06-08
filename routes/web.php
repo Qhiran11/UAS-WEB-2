@@ -40,5 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
         Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+
+        // Tambahkan rute resource untuk jenis komponen di sini
+        Route::resource('jenis_komponen', JenisKomponenController::class);
+
     });
 });
