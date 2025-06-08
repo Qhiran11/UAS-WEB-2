@@ -27,11 +27,11 @@
                 {{-- Tombol Edit & Hapus untuk Admin --}}
                 @if(Auth::user()->role === 'admin')
                 <div class="absolute top-2 right-2 flex gap-2">
-                    <a href="{{ route('komponen.edit', $komponen->id) }}" class="bg-yellow-400 p-2 rounded-full shadow-lg hover:bg-yellow-500 transition-all">
+                    <a href="{{ route('admin.komponen.edit', $komponen->id) }}" class="bg-yellow-400 p-2 rounded-full shadow-lg hover:bg-yellow-500 transition-all">
                         <i class="ph-fill ph-note-pencil text-white"></i>
                     </a>
                     <form onsubmit="return confirm('Yakin ingin menghapus?')" 
-                          action="{{ route('komponen.destroy', $komponen->id) }}" 
+                          action="{{ route('admin.komponen.destroy', $komponen->id) }}" 
                           method="POST" class="inline">
                         @csrf
                         @method('DELETE')

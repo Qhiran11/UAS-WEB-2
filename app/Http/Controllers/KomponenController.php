@@ -60,18 +60,19 @@ class KomponenController extends Controller
     {
         $komponen = Komponen::findOrFail($id);
         $jenis_komponen = DB::table('jenis_komponen')->get(); // Ambil jenis komponen
-        return view('komponen.edit', compact('komponen', 'jenis_komponen'));
+        return view('admin.komponen.edit', compact('komponen', 'jenis_komponen'));
     }
 
 
-    public function update(Request $request, Komponen $komponen) // Gunakan Route Model Binding
+    public function update(Request $request, Komponen $komponen)
     {
         $validated = $request->validate([
             'nama_komponen' => 'required|string|max:255',
             'jenis_komponen_id' => 'required|exists:jenis_komponen,id',
             'harga_komponen' => 'required|numeric',
             'stok_komponen' => 'required|integer',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Tambahkan validasi gambar
+            // UBAH ATURAN VALIDASI GAMBAR DI SINI
+            'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -86,7 +87,7 @@ class KomponenController extends Controller
 
         $komponen->update($validated);
 
-        return redirect()->route('komponen.index')->with('success', 'Komponen berhasil diperbarui');
+        return redirect()->route('admin.komponen.index')->with('success', 'Komponen berhasil diperbarui');
     }
 
 

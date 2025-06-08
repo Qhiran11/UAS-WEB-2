@@ -31,7 +31,7 @@ class JenisKomponenController extends Controller
 
     public function edit(JenisKomponen $jenis_komponen)
     {
-        return view('jenis_komponen.edit', compact('jenis_komponen'));
+        return view('admin.komponen.edit', compact('jenis_komponen'));
     }
 
     public function update(Request $request, JenisKomponen $jenis_komponen)
