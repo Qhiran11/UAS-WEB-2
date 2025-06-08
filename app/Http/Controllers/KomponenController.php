@@ -72,34 +72,37 @@ class KomponenController extends Controller
      */
     public function update(Request $request, Komponen $komponen)
     {
-        $validated = $request->validate([
+        // 1. Validasi dulu semua field selain gambar
+        $validatedData = $request->validate([
             'nama_komponen' => 'required|string|max:255',
             'jenis_komponen_id' => 'required|exists:jenis_komponen,id',
             'harga_komponen' => 'required|numeric',
             'stok_komponen' => 'required|integer',
-            // Gunakan 'sometimes' agar tidak wajib upload ulang gambar setiap kali edit
-            'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
-        // LOGIKA UNTUK PROSES GAMBAR BARU
+        // 2. Cek apakah ada file gambar BARU yang di-upload
         if ($request->hasFile('gambar')) {
-            // 1. Hapus gambar lama jika ada
+            // Jika ADA, validasi file gambar tersebut
+            $request->validate([
+                'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            // Hapus gambar lama dari storage
             if ($komponen->gambar && \Illuminate\Support\Facades\Storage::exists('public/komponen/' . $komponen->gambar)) {
                 \Illuminate\Support\Facades\Storage::delete('public/komponen/' . $komponen->gambar);
             }
 
-            // 2. Simpan gambar baru dan dapatkan path-nya
+            // Simpan gambar baru
             $path = $request->file('gambar')->store('public/komponen');
 
-            // 3. Masukkan nama file baru ke data yang akan di-update
-            $validated['gambar'] = basename($path);
+            // Tambahkan nama file baru ke data yang akan di-update
+            $validatedData['gambar'] = basename($path);
         }
 
-        // Update data komponen di database
-        $komponen->update($validated);
+        // 3. Lakukan update dengan data yang sudah divalidasi
+        $komponen->update($validatedData);
 
-        // Arahkan kembali ke halaman index dengan pesan sukses
-        return redirect()->route('komponen.index')->with('success', 'Komponen berhasil diperbarui');
+        return redirect()->route('komponen.index')->with('success', 'Komponen berhasil diperbarui.');
     }
 
     /**
