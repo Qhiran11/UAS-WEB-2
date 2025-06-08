@@ -20,8 +20,10 @@
             class="flex items-center justify-between sm:justify-start gap-8 border-b 
             sticky top-0 px-3 sm:px-8 py-4 navbar">
 
-                <img class="img_logo" src="\images\Logo.png" alt="Logo">
-                <h2 class="text-lg sm:text-l font-bold">Q-Store</h2>   
+                <a href="{{ route('about.index') }}" class="flex items-center gap-3">
+                    <img class="img_logo" src="\images\Logo.png" alt="Logo">
+                    <h2 class="text-lg sm:text-l font-bold">Q-Store</h2>
+                </a>   
 
                 {{-- desktop navigation --}}
                 <ul class="hidden sm:flex items-center">
