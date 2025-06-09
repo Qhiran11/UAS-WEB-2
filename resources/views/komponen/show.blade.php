@@ -39,10 +39,14 @@
                 @if(Auth::user()->role === 'user')
                     {{-- Tampilkan tombol belanja HANYA untuk USER --}}
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <button class="w-full bg-blue-100 text-blue-800 font-bold py-3 rounded-md hover:bg-blue-200 transition flex items-center justify-center gap-2">
-                            <i class="ph ph-shopping-cart-simple text-xl"></i>
-                            <span>Tambah ke Keranjang</span>
-                        </button>
+                        <form action="{{ route('cart.add') }}" method="POST" class="w-full">
+                            @csrf
+                            <input type="hidden" name="komponen_id" value="{{ $komponen->id }}">
+                            <button type="submit" class="w-full bg-blue-100 text-blue-800 font-bold py-3 rounded-md hover:bg-blue-200 transition flex items-center justify-center gap-2">
+                                <i class="ph ph-shopping-cart-simple text-xl"></i>
+                                <span>Tambah ke Keranjang</span>
+                            </button>
+                        </form>
                         <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-md hover:bg-blue-700 transition">
                             Beli Sekarang
                         </button>

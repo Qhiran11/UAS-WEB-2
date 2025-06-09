@@ -56,10 +56,14 @@
                     </a>
                     {{-- Tombol Keranjang HANYA untuk USER --}}
                     @if(Auth::user()->role === 'user')
-                    <button class="flex-1 bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center gap-1">
-                        <i class="ph ph-shopping-cart"></i>
-                        <span>Keranjang</span>
-                    </button>
+                    <form action="{{ route('cart.add') }}" method="POST" class="flex-1">
+                        @csrf
+                        <input type="hidden" name="komponen_id" value="{{ $komponen->id }}">
+                        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center gap-1">
+                            <i class="ph ph-shopping-cart"></i>
+                            <span>Keranjang</span>
+                        </button>
+                    </form>
                     @endif
                 </div>
             </div>

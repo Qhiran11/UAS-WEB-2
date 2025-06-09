@@ -146,6 +146,19 @@
 
         <section class="px-3 sm:px-8 py-4 flex flex-col gap-6">
             <h1 class="text-3xl font-bold text-white">{{ $section_title }}</h1>
+            
+
+            @if(session('success'))
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert">
+                    <p>{{ session('success') }}</p>
+                </div>
+            @endif
+            @if(session('error'))
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                    <p>{{ session('error') }}</p>
+                </div>
+            @endif
+
             {{ $slot }}
         </section>
     </main>

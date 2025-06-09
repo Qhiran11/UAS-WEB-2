@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
     // Rute Komponen yang bisa diakses publik (setelah login)
     Route::get('/komponen', [KomponenController::class, 'index'])->name('komponen.index');
     Route::get('/komponen/{komponen}', [KomponenController::class, 'show'])->name('komponen.show');
+
+    Route::post('/cart/add', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
 });
 
 // --- RUTE KHUSUS ADMIN ---
