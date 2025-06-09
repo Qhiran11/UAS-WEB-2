@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call([
             JenisKomponenSeeder::class,
+            AdminUserSeeder::class,
         ]);
     }
 }
