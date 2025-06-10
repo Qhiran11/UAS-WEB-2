@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/komponen/{komponen}', [KomponenController::class, 'show'])->name('komponen.show');
 
     Route::post('/cart/add', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
+    Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+    Route::patch('/cart/update/{cart}', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{cart}', [\App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
 });
 
 // --- RUTE KHUSUS ADMIN ---

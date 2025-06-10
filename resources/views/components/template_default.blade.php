@@ -71,6 +71,18 @@
                 {{-- User Status & Profile Link --}}
                 <div class="hidden sm:flex items-center gap-4 ml-auto">
                     @auth
+                        {{-- TAMBAHKAN LINK KERANJANG DI SINI (HANYA UNTUK USER) --}}
+                        @if(Auth::user()->role === 'user')
+                        <a href="{{ route('cart.index') }}" class="text-white hover:text-zinc-200 relative" title="Keranjang Belanja">
+                            <i class="ph-fill ph-shopping-cart-simple text-2xl"></i>
+                            {{-- Notifikasi Jumlah Item --}}
+                            @if(Auth::user()->carts->count() > 0)
+                            <span class="absolute -top-1 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                                {{ Auth::user()->carts->count() }}
+                            </span>
+                            @endif
+                        </a>
+                        @endif
                         <a href="{{ route('profile.index') }}" class="flex items-center gap-2 text-white hover:text-zinc-200">
                             <div class="text-right">
                                 <div class="font-semibold text-sm">{{ Auth::user()->name }}</div>
