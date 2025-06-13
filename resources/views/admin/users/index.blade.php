@@ -21,12 +21,12 @@
                     <td class="py-2 px-4 border-b">{{ $user->created_at->format('d M Y') }}</td>
                     <td class="py-2 px-4 border-b">
                         {{-- Tombol Reset Password --}}
-                        <form action="{{ route('admin.users.reset_password', $user->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin mereset password untuk user ini?');">
+                        <!-- <form action="{{ route('admin.users.reset_password', $user->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin mereset password untuk user ini?');">
                             @csrf
                             <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600" title="Reset Password">
                                 Reset PW
                             </button>
-                        </form>
+                        </form> -->
 
                         <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus user ini?');">
                             @csrf
